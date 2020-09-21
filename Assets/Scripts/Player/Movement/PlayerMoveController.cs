@@ -174,4 +174,11 @@ public class PlayerMoveController : MonoBehaviour {
         Gizmos.DrawLine(transform.position + colliderOffset, transform.position + colliderOffset + Vector3.down * groundLength);
         Gizmos.DrawLine(transform.position - colliderOffset, transform.position - colliderOffset + Vector3.down * groundLength);
     }
+
+    public void BouncePlayer(float force) {
+        if (onGround) {
+            onGround = false;
+            rb.AddForce(new Vector2(0, force));
+        }
+    }
 }
