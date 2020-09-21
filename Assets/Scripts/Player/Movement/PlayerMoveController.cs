@@ -77,8 +77,11 @@ public class PlayerMoveController : MonoBehaviour {
         if (rb.velocity.y > 0.05f) {
             animator.Play("Miku_Jump");
         }
-        else if (rb.velocity.y < -0.01f) {
+        else if (rb.velocity.y < -0.1f) {
             animator.Play("Miku_Fall");
+            if (onGround) {
+                animator.Play("Miku_Fall_Ground");
+            }
         }
 
         if (!isPlayerAlive) {
