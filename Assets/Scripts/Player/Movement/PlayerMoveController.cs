@@ -31,6 +31,17 @@ public class PlayerMoveController : MonoBehaviour {
     [SerializeField] private float groundLength = 0.6f;
     [SerializeField] private Vector3 colliderOffset;
 
+    public bool isPlayerAlive = true;
+
+    public static PlayerMoveController instance;
+
+    private void Awake() {
+        if (instance == null) { // if the instance is null, initialise this class
+            instance = this;
+        }
+
+    }
+
     // Update is called once per frame
     void Update() {
         // get axis direction from input
@@ -42,23 +53,27 @@ public class PlayerMoveController : MonoBehaviour {
         onGround = Physics2D.Raycast(transform.position + colliderOffset, Vector2.down, groundLength, groundLayer)
             || Physics2D.Raycast(transform.position - colliderOffset, Vector2.down, groundLength, groundLayer);
 
-        if (Input.GetButtonDown("Jump")) {
-            jumpTimer = Time.time + jumpDelay;
+        if (isPlayerAlive) {
+            if (Input.GetButtonDown("Jump")) {
+                jumpTimer = Time.time + jumpDelay;
+            }
         }
     }
 
     void FixedUpdate() {
-        moveCharacter(direction.x);
+        if (isPlayerAlive) {
+            moveCharacter(direction.x);
 
-        if (jumpTimer > Time.time && onGround) {
-            Jump();
-            //animator.SetFloat("vertical", rb.velocity.y);
+            if (jumpTimer > Time.time && onGround) {
+                Jump();
+                //animator.SetFloat("vertical", rb.velocity.y);
+            }
+            RunningAnimation();
+            modifyPhysics();
         }
-        RunningAnimation(direction.x);
-        modifyPhysics();
     }
 
-    private void RunningAnimation(float horizontal) {
+    public void RunningAnimation() {
         if (rb.velocity.y > 0.05f) {
             animator.Play("Miku_Jump");
         }
@@ -66,6 +81,10 @@ public class PlayerMoveController : MonoBehaviour {
             animator.Play("Miku_Fall");
         }
 
+        if (!isPlayerAlive) {
+            rb.gravityScale = 10;
+            animator.Play("Miku_Die");
+        }
         //if ((onGround && !Input.GetButtonDown("Jump"))) {
         //    if (horizontal == 1 || horizontal == -1) {
         //        animator.Play("Miku_Run");
