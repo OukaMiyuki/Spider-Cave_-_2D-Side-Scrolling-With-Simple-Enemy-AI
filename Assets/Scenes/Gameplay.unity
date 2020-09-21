@@ -138,7 +138,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!61 &65638629
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -601,6 +601,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5617019059514805667, guid: e71efdad376d7ec4b8e6596882e240a8,
+        type: 3}
+      propertyPath: linearDrag
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 5617019059514805676, guid: e71efdad376d7ec4b8e6596882e240a8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -664,7 +669,7 @@ PrefabInstance:
     - target: {fileID: 5617019059514805679, guid: e71efdad376d7ec4b8e6596882e240a8,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e71efdad376d7ec4b8e6596882e240a8, type: 3}
@@ -734,6 +739,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Spider Walker
+      objectReference: {fileID: 0}
+    - target: {fileID: 7948465466859448697, guid: 43efb94054232494b803cb5347d758d2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 43efb94054232494b803cb5347d758d2, type: 3}

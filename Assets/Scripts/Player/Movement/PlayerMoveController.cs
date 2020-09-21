@@ -85,13 +85,13 @@ public class PlayerMoveController : MonoBehaviour {
             rb.gravityScale = 10;
             animator.Play("Miku_Die");
         }
-        //if ((onGround && !Input.GetButtonDown("Jump"))) {
-        //    if (horizontal == 1 || horizontal == -1) {
-        //        animator.Play("Miku_Run");
-        //    } else if(horizontal == 0f) {
-        //        animator.Play("Miku_Idle");
-        //    }
-        //}
+        if ((onGround && !Input.GetButtonDown("Jump"))) {
+            if (direction.x == 1 || direction.x == -1) {
+                animator.Play("Miku_Run");
+            } else if(direction.x == Mathf.Epsilon) {
+                animator.Play("Miku_Idle");
+            }
+        }
     }
 
     void moveCharacter(float horizontal) {
