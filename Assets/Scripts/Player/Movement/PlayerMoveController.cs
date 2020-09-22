@@ -70,6 +70,9 @@ public class PlayerMoveController : MonoBehaviour {
             }
             RunningAnimation();
             modifyPhysics();
+        } else {
+            rb.gravityScale = 10;
+            rb.drag = 0;
         }
     }
 
@@ -88,7 +91,7 @@ public class PlayerMoveController : MonoBehaviour {
             rb.gravityScale = 10;
             animator.Play("Miku_Die");
         }
-        if ((onGround && !Input.GetButtonDown("Jump"))) {
+        if ((onGround && !Input.GetButtonDown("Jump")) && isPlayerAlive) {
             if (direction.x == 1 || direction.x == -1) {
                 animator.Play("Miku_Run");
             } else if(direction.x == Mathf.Epsilon) {

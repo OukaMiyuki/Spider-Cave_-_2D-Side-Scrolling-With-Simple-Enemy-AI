@@ -11,7 +11,7 @@ public class SpiderShooter : MonoBehaviour {
     }
 
     IEnumerator AttackThePlayer() {
-        yield return new WaitForSeconds(Random.Range(2, 7));
+        yield return new WaitForSeconds(Random.Range(2, 4));
         Instantiate(bullet, transform.position, Quaternion.identity);
         StartCoroutine(AttackThePlayer());
     }

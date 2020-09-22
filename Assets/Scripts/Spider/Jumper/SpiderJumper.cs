@@ -19,9 +19,9 @@ public class SpiderJumper : MonoBehaviour {
     }
 
     IEnumerator AttackThePayer() {
-        yield return new WaitForSeconds(Random.Range(2, 7));
+        yield return new WaitForSeconds(Random.Range(2, 4));
 
-        forceY = Random.Range(350f, 600f);
+        forceY = Random.Range(400f, 450f);
 
         rb.AddForce(new Vector2(0, forceY));
         animator.SetBool("Attack", true);
@@ -31,7 +31,7 @@ public class SpiderJumper : MonoBehaviour {
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {
-        if (collision.tag == "Ground") {
+        if (collision.tag == "Ground" || collision.tag == "Lava") {
             animator.SetBool("Attack", false);
         }
 

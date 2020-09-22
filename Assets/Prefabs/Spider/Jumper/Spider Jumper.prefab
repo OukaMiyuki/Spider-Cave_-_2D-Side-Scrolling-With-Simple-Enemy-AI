@@ -14,13 +14,14 @@ GameObject:
   - component: {fileID: 8335803024358119607}
   - component: {fileID: 1993610592949074301}
   - component: {fileID: 811426077711911368}
+  - component: {fileID: 1914323540}
   m_Layer: 0
   m_Name: Spider Jumper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3408206954030873584
 Transform:
   m_ObjectHideFlags: 0
@@ -239,3 +240,16 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &1914323540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3408206954030873587}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ed08dc7eb388b44ab29348d32240bbc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  forceY: 300
