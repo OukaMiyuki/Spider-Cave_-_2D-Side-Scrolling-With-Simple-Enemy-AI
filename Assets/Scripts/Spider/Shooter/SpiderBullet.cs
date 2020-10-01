@@ -3,16 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SpiderBullet : MonoBehaviour {
+
+
     private void OnTriggerEnter2D(Collider2D collision) {
         if (collision.tag == "Player") {
-            //Destroy(collision.gameObject);
-            PlayerMoveController.instance.isPlayerAlive = false;
-            PlayerMoveController.instance.RunningAnimation();
-            Destroy(gameObject);
+            PlayerDeath.instance.KillThePlayer();
+            RunAnimation.instance.RunningAnimation();
+            Invoke("LoadGameOverPanel", 1.0f);
+            gameObject.SetActive(false);
+            Invoke("DestroyObject", 2f);
         }
 
         if (collision.tag == "Ground") {
-            Destroy(gameObject);
+            gameObject.SetActive(false);
+            Invoke("DestroyObject", 2f);
         }
+    }
+
+    private void LoadGameOverPanel() {
+        GameplayController.instance.PlayerDied();
+    }
+
+    private void DestroyObject() {
+        Destroy(gameObject);
     }
 }

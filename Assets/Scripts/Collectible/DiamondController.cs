@@ -10,9 +10,11 @@ public class DiamondController : MonoBehaviour {
     }
     private void OnTriggerEnter2D(Collider2D collision) {
         if (collision.tag == "Player") {
-            if (DoorScriptController.instance != null) {
-                Destroy(gameObject);
-                DoorScriptController.instance.DecrementCollectibleDiamonds();
+            if (PlayerDeath.instance.GetDieOrAlive()) {
+                if (DoorScriptController.instance != null) {
+                    Destroy(gameObject);
+                    DoorScriptController.instance.DecrementCollectibleDiamonds();
+                }
             }
         }
     }

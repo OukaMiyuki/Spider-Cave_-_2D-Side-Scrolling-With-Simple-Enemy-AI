@@ -36,9 +36,13 @@ public class SpiderJumper : MonoBehaviour {
         }
 
         if (collision.tag == "Player") {
-            PlayerMoveController.instance.isPlayerAlive = false;
-            PlayerMoveController.instance.RunningAnimation();
-            //Destroy(collision.gameObject);
+            PlayerDeath.instance.KillThePlayer();
+            RunAnimation.instance.RunningAnimation();
+            Invoke("LoadGameOverPanel", 1.0f);
         }
+    }
+
+    private void LoadGameOverPanel() {
+        GameplayController.instance.PlayerDied();
     }
 }

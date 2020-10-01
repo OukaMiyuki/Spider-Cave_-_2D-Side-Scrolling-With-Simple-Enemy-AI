@@ -41,9 +41,13 @@ public class SpiderWalker : MonoBehaviour {
 
     private void OnCollisionEnter2D(Collision2D collision) {
         if (collision.gameObject.tag == "Player") {
-            PlayerMoveController.instance.isPlayerAlive = false;
-            PlayerMoveController.instance.RunningAnimation();
-            //Destroy(collision.gameObject);
+            PlayerDeath.instance.KillThePlayer();
+            RunAnimation.instance.RunningAnimation();
+            Invoke("LoadGameOverPanel", 1.0f);
         }
+    }
+
+    private void LoadGameOverPanel() {
+        GameplayController.instance.PlayerDied();
     }
 }

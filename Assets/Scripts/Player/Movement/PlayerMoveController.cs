@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMoveController : MonoBehaviour {
+
     [Header("Animation Component")]
     [SerializeField] private Animator animator;
 
     [Header("Horizontal Movement")]
     [SerializeField] private float moveSpeed = 10f;
-    [SerializeField] private Vector2 direction;
+    [SerializeField] public Vector2 direction;
     private bool facingRight = true;
 
     [Header("Vertical Movement")]
@@ -23,15 +24,15 @@ public class PlayerMoveController : MonoBehaviour {
     [SerializeField] private float fallMultiplier = 10f;
 
     [Header("Components")]
-    [SerializeField] private Rigidbody2D rb;
+    [SerializeField] public Rigidbody2D rb;
     [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private LayerMask fallGroundLayer;
 
     [Header("Collisions")]
-    [SerializeField] private bool onGround = false;
+    [SerializeField] public bool onGround = false;
+    [SerializeField] public bool onFallGround = false;
     [SerializeField] private float groundLength = 0.6f;
     [SerializeField] private Vector3 colliderOffset;
-
-    public bool isPlayerAlive = true;
 
     public static PlayerMoveController instance;
 
@@ -53,7 +54,10 @@ public class PlayerMoveController : MonoBehaviour {
         onGround = Physics2D.Raycast(transform.position + colliderOffset, Vector2.down, groundLength, groundLayer)
             || Physics2D.Raycast(transform.position - colliderOffset, Vector2.down, groundLength, groundLayer);
 
-        if (isPlayerAlive) {
+        onFallGround = Physics2D.Raycast(transform.position + colliderOffset, Vector2.down, groundLength, fallGroundLayer)
+            || Physics2D.Raycast(transform.position - colliderOffset, Vector2.down, groundLength, fallGroundLayer);
+
+        if (PlayerDeath.instance.GetDieOrAlive() && !PlayerWin.instance.GetWin()) {
             if (Input.GetButtonDown("Jump")) {
                 jumpTimer = Time.time + jumpDelay;
             }
@@ -61,42 +65,19 @@ public class PlayerMoveController : MonoBehaviour {
     }
 
     void FixedUpdate() {
-        if (isPlayerAlive) {
-            moveCharacter(direction.x);
-
-            if (jumpTimer > Time.time && onGround) {
-                Jump();
-                //animator.SetFloat("vertical", rb.velocity.y);
+        if (PlayerDeath.instance.GetDieOrAlive()) {
+            if (!PlayerWin.instance.GetWin()) {
+                moveCharacter(direction.x);
+                if (jumpTimer > Time.time && onGround) {
+                    Jump();
+                    //animator.SetFloat("vertical", rb.velocity.y);
+                }
+                modifyPhysics();
             }
-            RunningAnimation();
-            modifyPhysics();
+            RunAnimation.instance.RunningAnimation();
         } else {
             rb.gravityScale = 10;
             rb.drag = 0;
-        }
-    }
-
-    public void RunningAnimation() {
-        if (rb.velocity.y > 0.05f) {
-            animator.Play("Miku_Jump");
-        }
-        else if (rb.velocity.y < -0.1f) {
-            animator.Play("Miku_Fall");
-            if (onGround) {
-                animator.Play("Miku_Fall_Ground");
-            }
-        }
-
-        if (!isPlayerAlive) {
-            rb.gravityScale = 10;
-            animator.Play("Miku_Die");
-        }
-        if ((onGround && !Input.GetButtonDown("Jump")) && isPlayerAlive) {
-            if (direction.x == 1 || direction.x == -1) {
-                animator.Play("Miku_Run");
-            } else if(direction.x == Mathf.Epsilon) {
-                animator.Play("Miku_Idle");
-            }
         }
     }
 
@@ -181,7 +162,7 @@ public class PlayerMoveController : MonoBehaviour {
     public void BouncePlayer(float force) {
         if (onGround) {
             onGround = false;
-            rb.AddForce(new Vector2(0, force));
+            rb.AddForce(new Vector2(0, (force*Time.deltaTime*100)));
         }
     }
 }

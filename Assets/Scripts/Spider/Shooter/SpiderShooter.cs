@@ -12,15 +12,22 @@ public class SpiderShooter : MonoBehaviour {
 
     IEnumerator AttackThePlayer() {
         yield return new WaitForSeconds(Random.Range(2, 4));
-        Instantiate(bullet, transform.position, Quaternion.identity);
+        if (PlayerDeath.instance.GetDieOrAlive()) {
+            Instantiate(bullet, transform.position, Quaternion.identity);
+        }
         StartCoroutine(AttackThePlayer());
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {
         if (collision.tag == "Player") {
             //Destroy(collision.gameObject);
-            PlayerMoveController.instance.isPlayerAlive = false;
-            PlayerMoveController.instance.RunningAnimation();
+            PlayerDeath.instance.KillThePlayer();
+            RunAnimation.instance.RunningAnimation();
+            Invoke("LoadGameOverPanel", 1.0f);
         }
+    }
+
+    private void LoadGameOverPanel() {
+        GameplayController.instance.PlayerDied();
     }
 }

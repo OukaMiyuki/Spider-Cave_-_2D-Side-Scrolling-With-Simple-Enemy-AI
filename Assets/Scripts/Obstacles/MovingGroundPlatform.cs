@@ -4,14 +4,18 @@ using UnityEngine;
 
 public class MovingGroundPlatform : MonoBehaviour {
     private void OnCollisionEnter2D(Collision2D collision) {
-        if (collision.gameObject.tag == "Player") {
-            collision.collider.transform.SetParent(transform);
+        if (PlayerDeath.instance.GetDieOrAlive()) {
+            if (collision.gameObject.tag == "Player") {
+                collision.collider.transform.SetParent(transform);
+            }
         }
     }
 
     private void OnCollisionExit2D(Collision2D collision) {
-        if (collision.gameObject.tag == "Player") {
-            collision.collider.transform.SetParent(null);
+        if (PlayerDeath.instance.GetDieOrAlive()) {
+            if (collision.gameObject.tag == "Player") {
+                collision.collider.transform.SetParent(null);
+            }
         }
     }
 }

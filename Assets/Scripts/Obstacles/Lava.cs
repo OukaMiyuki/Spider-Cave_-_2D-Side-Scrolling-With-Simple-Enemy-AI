@@ -6,17 +6,21 @@ public class Lava : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision) {
         if (collision.tag == "Player") {
-            print("Mati");
-            collision.GetComponent<PlayerMoveController>().isPlayerAlive = false;
-            print(collision.GetComponent<PlayerMoveController>().isPlayerAlive);
-            collision.GetComponent<PlayerMoveController>().RunningAnimation();
+            PlayerDeath.instance.KillThePlayer();
+            RunAnimation.instance.RunningAnimation();
+            Invoke("LoadGameOverPanel", 2.0f);
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision) {
-        if (collision.gameObject.tag == "Player") {
-            collision.gameObject.GetComponent<PlayerMoveController>().isPlayerAlive = false;
-            collision.gameObject.GetComponent<PlayerMoveController>().RunningAnimation();
-        }
+    //private void OnCollisionEnter2D(Collision2D collision) {
+    //    if (collision.gameObject.tag == "Player") {
+    //        PlayerDeath.instance.KillThePlayer();
+    //        RunAnimation.instance.RunningAnimation();
+    //        Invoke("LoadGameOverPanel", 1.0f);
+    //    }
+    //}
+
+    private void LoadGameOverPanel() {
+        GameplayController.instance.PlayerDied();
     }
 }
